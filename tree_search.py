@@ -1,33 +1,37 @@
 from collections import deque
 import time
+import sys
 
 
-# --------------------------------------------------
-# Search Tree
-# --------------------------------------------------
+# ============================================================
+# CREATE A BINARY SEARCH TREE
+# ============================================================
 
-tree = {
-    'A': ['B', 'C'],
-    'B': ['D', 'E'],
-    'C': ['F', 'G'],
-    'D': ['H', 'I'],
-    'E': ['J', 'K'],
-    'F': ['L', 'M'],
-    'G': ['N', 'O'],
-    'H': [],
-    'I': [],
-    'J': [],
-    'K': [],
-    'L': [],
-    'M': [],
-    'N': [],
-    'O': []
-}
+def create_tree(depth):
+    tree = {}
+
+    total_nodes = (2 ** (depth + 1)) - 1
+
+    for i in range(1, total_nodes + 1):
+        children = []
+
+        left = 2 * i
+        right = 2 * i + 1
+
+        if left <= total_nodes:
+            children.append(left)
+
+        if right <= total_nodes:
+            children.append(right)
+
+        tree[i] = children
+
+    return tree
 
 
-# --------------------------------------------------
-# Breadth First Search (BFS)
-# --------------------------------------------------
+# ============================================================
+# BREADTH-FIRST SEARCH
+# ============================================================
 
 def bfs(tree, start, goal):
     queue = deque([start])
@@ -46,9 +50,9 @@ def bfs(tree, start, goal):
     return nodes_expanded
 
 
-# --------------------------------------------------
-# Depth First Search (DFS)
-# --------------------------------------------------
+# ============================================================
+# DEPTH-FIRST SEARCH
+# ============================================================
 
 def dfs(tree, start, goal):
     stack = [start]
@@ -61,98 +65,170 @@ def dfs(tree, start, goal):
         if node == goal:
             return nodes_expanded
 
+        # Add right child first so left child is explored first
         for child in reversed(tree[node]):
             stack.append(child)
 
     return nodes_expanded
 
 
-# --------------------------------------------------
-# Main Program
-# --------------------------------------------------
+# ============================================================
+# RUN ONE SEARCH MULTIPLE TIMES
+# Used only to give py-spy enough execution time
+# ============================================================
 
-start_node = 'A'
-goal_node = 'M'
+def profiling_workload(tree, algorithm, start, goal, repetitions):
 
-runs = 5
+    for _ in range(repetitions):
 
+        if algorithm == "bfs":
+            bfs(tree, start, goal)
 
-# --------------------------------------------------
-# BFS Profiling
-# --------------------------------------------------
-
-bfs_times = []
-
-for i in range(runs):
-
-    start_time = time.perf_counter()
-
-    bfs_nodes = bfs(tree, start_node, goal_node)
-
-    end_time = time.perf_counter()
-
-    bfs_times.append(end_time - start_time)
+        elif algorithm == "dfs":
+            dfs(tree, start, goal)
 
 
-# --------------------------------------------------
-# DFS Profiling
-# --------------------------------------------------
+# ============================================================
+# MAIN PROGRAM
+# ============================================================
 
-dfs_times = []
+if __name__ == "__main__":
 
-for i in range(runs):
+    # Tree depth
+    DEPTH = 13
 
-    start_time = time.perf_counter()
+    # Create tree
+    tree = create_tree(DEPTH)
 
-    dfs_nodes = dfs(tree, start_node, goal_node)
+    start_node = 1
 
-    end_time = time.perf_counter()
+    # Left-most deepest node
+    goal_node = 2 ** DEPTH
 
-    dfs_times.append(end_time - start_time)
+    print("==============================================")
+    print("       BFS vs DFS TREE SEARCH")
+    print("==============================================")
 
+    print("Tree Depth:", DEPTH)
+    print("Total Nodes:", len(tree))
+    print("Start Node:", start_node)
+    print("Goal Node:", goal_node)
 
-# --------------------------------------------------
-# Calculate Average Time
-# --------------------------------------------------
+    # --------------------------------------------------------
+    # BFS measurement
+    # --------------------------------------------------------
 
-bfs_average = sum(bfs_times) / runs
-dfs_average = sum(dfs_times) / runs
+    bfs_times = []
 
+    for _ in range(5):
 
-# --------------------------------------------------
-# Display Results
-# --------------------------------------------------
+        start_time = time.perf_counter()
 
-print("----------------------------------------")
-print("        TREE SEARCH PROFILING")
-print("----------------------------------------")
+        bfs_nodes = bfs(tree, start_node, goal_node)
 
-print("\nStart Node :", start_node)
-print("Goal Node  :", goal_node)
-print("Number of Runs :", runs)
+        end_time = time.perf_counter()
 
-print("\nBFS Results")
-print("----------------------------------------")
-print("Nodes Expanded :", bfs_nodes)
-print("Execution Times:")
+        elapsed = (end_time - start_time) * 1000
+        bfs_times.append(elapsed)
 
-for i, t in enumerate(bfs_times, 1):
-    print("Run", i, ":", t, "seconds")
+    bfs_average = sum(bfs_times) / len(bfs_times)
 
-print("Average Time :", bfs_average, "seconds")
+    # --------------------------------------------------------
+    # DFS measurement
+    # --------------------------------------------------------
 
+    dfs_times = []
 
-print("\nDFS Results")
-print("----------------------------------------")
-print("Nodes Expanded :", dfs_nodes)
-print("Execution Times:")
+    for _ in range(5):
 
-for i, t in enumerate(dfs_times, 1):
-    print("Run", i, ":", t, "seconds")
+        start_time = time.perf_counter()
 
-print("Average Time :", dfs_average, "seconds")
+        dfs_nodes = dfs(tree, start_node, goal_node)
 
+        end_time = time.perf_counter()
 
-print("\n----------------------------------------")
-print("        PROFILING COMPLETED")
-print("----------------------------------------")
+        elapsed = (end_time - start_time) * 1000
+        dfs_times.append(elapsed)
+
+    dfs_average = sum(dfs_times) / len(dfs_times)
+
+    # --------------------------------------------------------
+    # Display experimental results
+    # --------------------------------------------------------
+
+    print("\n--------------- BFS RESULTS ----------------")
+
+    print("Nodes Expanded:", bfs_nodes)
+
+    print(
+        "Run Times (ms):",
+        [round(t, 6) for t in bfs_times]
+    )
+
+    print(
+        "Average Time (ms):",
+        round(bfs_average, 6)
+    )
+
+    print("\n--------------- DFS RESULTS ----------------")
+
+    print("Nodes Expanded:", dfs_nodes)
+
+    print(
+        "Run Times (ms):",
+        [round(t, 6) for t in dfs_times]
+    )
+
+    print(
+        "Average Time (ms):",
+        round(dfs_average, 6)
+    )
+
+    # --------------------------------------------------------
+    # Final comparison
+    # --------------------------------------------------------
+
+    print("\n--------------- COMPARISON -----------------")
+
+    print(
+        "BFS Average Time:",
+        round(bfs_average, 6),
+        "ms"
+    )
+
+    print(
+        "DFS Average Time:",
+        round(dfs_average, 6),
+        "ms"
+    )
+
+    print("BFS Nodes Expanded:", bfs_nodes)
+    print("DFS Nodes Expanded:", dfs_nodes)
+
+    # --------------------------------------------------------
+    # Py-spy mode
+    # --------------------------------------------------------
+
+    if len(sys.argv) == 3:
+
+        algorithm = sys.argv[1].lower()
+        repetitions = int(sys.argv[2])
+
+        print("\n==============================================")
+        print("             PY-SPY PROFILING MODE")
+        print("==============================================")
+
+        print("Algorithm:", algorithm.upper())
+        print("Repetitions:", repetitions)
+
+        print("\nRunning workload...")
+
+        profiling_workload(
+            tree,
+            algorithm,
+            start_node,
+            goal_node,
+            repetitions
+        )
+
+        print("Profiling workload completed.")
