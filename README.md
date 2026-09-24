@@ -1,47 +1,64 @@
-# SLE_2_Profiling
-DFS and BFS performance measure
-# SLE-2: Empirical Performance Analysis
+# SLE-2: BFS vs DFS Tree Search Profiling
 
-## Course
-02AML204 – Introduction to Artificial Intelligence
+## 1. Title
 
-## Student
-Shivraj Pravin Banne
+**Performance Comparison of Breadth-First Search (BFS) and Depth-First Search (DFS) Using Tree Search Profiling**
 
-## PRN
-25UAM123
+---
 
-## Objective
+## 2. Objective
 
-The objective of this experiment is to compare the practical
-performance of Breadth-First Search (BFS) and Depth-First Search
-(DFS) using a common search tree.
+The objective of this experiment is to implement and compare:
 
-The performance is measured using execution time and the number
-of nodes expanded by each algorithm.
+- Breadth-First Search (BFS)
+- Depth-First Search (DFS)
 
-## Problem Used
+on a 15-node search tree.
 
-A small search tree is used for the experiment.
+The experiment measures:
 
-The starting node is:
+1. Number of nodes expanded by BFS and DFS.
+2. Execution time of BFS and DFS.
+3. Performance for different goal-node positions.
+4. Best-case, average-case, and worst-case search behavior.
+5. Difference between BFS and DFS in terms of search effort and execution time.
 
-A
+---
 
-The goal node is:
+## 3. Problem Statement
 
-M
+Implement Breadth-First Search and Depth-First Search for searching a goal node in a tree.
 
-Both BFS and DFS search the same tree and the same goal node.
+The program should:
 
-## Algorithms Used
+- Use a 15-node binary tree.
+- Start the search from node `A`.
+- Search for different goal nodes.
+- Count the number of nodes expanded.
+- Measure execution time.
+- Perform multiple repetitions to obtain measurable timing values.
+- Perform multiple timing runs.
+- Compare BFS and DFS results.
 
-### 1. Breadth-First Search (BFS)
+The three experimental cases used are:
 
-BFS explores the tree level by level. It uses a queue to store
-the nodes waiting to be explored.
+| Case | Goal Node | Purpose |
+|---|---|---|
+| Best Case | B | Goal is found very close to the root |
+| Average Case | M | Goal is located at an intermediate/deeper position |
+| Worst Case | O | Goal is the last node explored by both searches |
 
-### 2. Depth-First Search (DFS)
+---
 
-DFS explores one branch as deeply as possible before moving to
-another branch. It
+## 4. Tree Used in the Experiment
+
+The experiment uses the following 15-node binary tree:
+
+```text
+                    A
+                 /     \
+                B       C
+              /  \     /  \
+             D    E   F    G
+            / \  / \ / \  / \
+           H  I J  K L  M N  O
