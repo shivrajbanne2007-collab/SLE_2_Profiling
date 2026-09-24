@@ -1,29 +1,76 @@
-# Contribution Log – SLE-2
 
-## Student Details
-- Name: Shivraj Pravin Banne
-- PRN: 25UAM123
-- Experiment: SLE-2 – Profiling
+---
 
-## AI Assistance
-AI tools were used to assist in understanding and developing the Python program.
+# `Contribution_Log.md`
 
-### Assistance Taken
-- Understanding the Tree and Node structure.
-- Understanding Breadth First Search (BFS).
-- Understanding Depth First Search (DFS).
-- Getting help with Python program structure.
-- Understanding the concept of profiling and performance comparison.
+```markdown
+# Contribution Log
 
-## Student Contribution
-- Reviewed the generated code.
-- Understood the working of the program.
-- Modified the program according to the experiment requirements.
-- Executed and tested the Python program.
-- Observed and analyzed the results.
+## SLE-2: BFS vs DFS Tree Search Profiling
 
-## Verification
-The program was executed and checked for correct BFS and DFS traversal.
+### Student
+**Name:** Shivraj Pravin Banne
 
-## Final Status
-The code was reviewed, tested, and prepared for submission.
+### Experiment
+**SLE-2 – BFS vs DFS Tree Search Profiling**
+
+### Project Topic
+**Performance Comparison of Breadth-First Search (BFS) and Depth-First Search (DFS)**
+
+---
+
+# 1. Contribution Overview
+
+This project implements Breadth-First Search (BFS) and Depth-First Search (DFS) on a 15-node binary tree and compares their search performance.
+
+The work includes:
+
+- Designing the search tree.
+- Implementing BFS.
+- Implementing DFS.
+- Counting nodes expanded.
+- Implementing execution-time measurement.
+- Designing best-case, average-case, and worst-case experiments.
+- Running repeated timing experiments.
+- Generating a final comparison table.
+- Analysing the obtained results.
+- Preparing project documentation.
+
+---
+
+# 2. Initial Problem Understanding
+
+The first step was to understand the requirement of comparing two uninformed search algorithms:
+
+1. Breadth-First Search
+2. Depth-First Search
+
+The experiment required more than simply implementing the algorithms.
+
+The implementation also needed to measure:
+
+- Search effort
+- Number of nodes expanded
+- Execution time
+- Performance under different goal positions
+
+The problem was therefore divided into separate components:
+
+```text
+Tree Creation
+      ↓
+BFS Implementation
+      ↓
+DFS Implementation
+      ↓
+Node Expansion Counting
+      ↓
+Timing Function
+      ↓
+Best/Average/Worst Cases
+      ↓
+Result Collection
+      ↓
+Final Comparison
+      ↓
+Documentation
